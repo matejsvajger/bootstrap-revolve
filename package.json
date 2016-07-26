@@ -1,0 +1,89 @@
+{
+  "_args": [
+    [
+      "bootstrap-revolve@github:matejsvajger/bootstrap-revolve",
+      "/usr/local/lib/node_modules/bootstrap-revolve"
+    ]
+  ],
+  "_from": "matejsvajger/bootstrap-revolve",
+  "_id": "bootstrap-revolve@0.0.1",
+  "_inCache": true,
+  "_location": "/generator-matejsvajger/bootstrap-revolve",
+  "_phantomChildren": {},
+  "_requested": {
+    "hosted": {
+      "directUrl": "https://raw.githubusercontent.com/matejsvajger/bootstrap-revolve/master/package.json",
+      "gitUrl": "git://github.com/matejsvajger/bootstrap-revolve.git",
+      "httpsUrl": "git+https://github.com/matejsvajger/bootstrap-revolve.git",
+      "shortcut": "github:matejsvajger/bootstrap-revolve",
+      "ssh": "git@github.com:matejsvajger/bootstrap-revolve.git",
+      "sshUrl": "git+ssh://git@github.com/matejsvajger/bootstrap-revolve.git",
+      "type": "github"
+    },
+    "name": "jquery-boilerplate",
+    "raw": "matejsvajger@github:matejsvajger/bootstrap-revolve",
+    "rawSpec": "github:matejsvajger/bootstrap-revolve",
+    "scope": null,
+    "spec": "github:matejsvajger/bootstrap-revolve",
+    "type": "hosted"
+  },
+  "_requiredBy": [
+    "/bootstrap-revolve"
+  ],
+  "_resolved": "git://github.com/matejsvajger/bootstrap-revolve.git#a270f97ba531ecf52de280bdb3ea56d3c8c0122b",
+  "_shasum": "bde651f036cd1a9536acef60bf837714461ed4db",
+  "_shrinkwrap": null,
+  "_spec": "jquery-boilerplate@github:matejsvajger/bootstrap-revolve",
+  "_where": "/usr/local/lib/node_modules/bootstrap-revolve",
+  "author": {
+    "email": "hello@matejsvajger.com",
+    "name": "Matej Svajger",
+    "url": "http://matejsvajger.com"
+  },
+  "bugs": {
+    "url": "https://github.com/matejsvajger/bootstrap-revolve/issues"
+  },
+  "dependencies": {
+    "jquery": ">=1.5.1"
+  },
+  "description": "Image rotator for Bootstrap CSS Framework.",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-coffee": "^0.13.0",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-jshint": "^0.11.0",
+    "grunt-contrib-uglify": "^0.9.2",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-jscs": "^2.7.0",
+    "grunt-karma": "^0.12.0",
+    "jscs": "^2.10.1",
+    "karma": "^0.13.21",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "karma-qunit": "^0.1.5",
+    "phantomjs": "^1.9.18",
+    "qunitjs": "^1.19.0"
+  },
+  "gitHead": "a270f97ba531ecf52de280bdb3ea56d3c8c0122b",
+  "homepage": "http://matejsvajger.com/bootstrap-revolve",
+  "installable": true,
+  "keywords": [
+    "bootstrap",
+    "jquery",
+    "image",
+    "rotate"
+  ],
+  "license": "MIT",
+  "name": "bootstrap-revolve",
+  "optionalDependencies": {},
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/matejsvajger/bootstrap-revolve.git"
+  },
+  "scripts": {
+    "jscs": "jscs src",
+    "test": "npm run jscs && grunt travis --verbose"
+  },
+  "version": "0.0.1"
+}

@@ -1,0 +1,25 @@
+{
+  "name": "bootstrap-revolve",
+  "license": "MIT",
+  "authors": [
+    "Matej Svajger <hello@matejsvajger.com>"
+  ],
+  "description": "A jump-start for jQuery plugins development.",
+  "homepage": "http://wwwh.github.com/matejsvajger/bootstrap-revolve",
+  "keywords": [
+    "jquery",
+    "plugin",
+    "boilerplate",
+    "jquery-plugin",
+    "bootstrap-revolve"
+  ],
+  "main": "src/bootstrap.revolve.js",
+  "dependencies": {
+    "jquery": "1"
+  },
+  "ignore": [
+    "npm-debug.log",
+    "bower_components",
+    "node_modules"
+  ]
+}
