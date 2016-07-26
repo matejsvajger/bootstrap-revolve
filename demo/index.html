@@ -2,11 +2,40 @@
 <html>
 	<head>
 		<title>Bootstrap Revolve</title>
-		<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 		<script src="../dist/bootstrap.revolve.min.js"></script>
 	</head>
 	<body>
-		<div id="element"></div>
+        <div class="container">
+            <div class="page-header">
+              <h1>Revolve.js <small>A bootstrap product viewer.</small></h1>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-md-3">
+                    <a href="#" class="thumbnail">
+                      <img src="/demo/images/brille1a-1.jpg" alt="Glasses">
+                    </a>
+                </div>
+            </div>
+            <h2>Usage:</h2>
+            <pre>
+    $( function() {
+        $( "#element" ).revolve( {
+            propertyName: "a custom value"
+        } );
+    } );</pre>
+            <div id="element"></div>
+        </div>
 		<script>
 			$( function() {
 				$( "#element" ).revolve( {
