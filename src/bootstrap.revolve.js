@@ -13,54 +13,150 @@
     // as this (slightly) quickens the resolution process and can be more efficiently
     // minified (especially when both are regularly referenced in the plugin).
 
-    // Create the defaults once
-    var pluginName = "revolve",
-        defaults = {
-            propertyName: "value"
-        };
+    var Revolve = function (element, options) {
+        this.options             = options
+        this.$body               = $(document.body)
+        this.$element            = $(element)
+        this.$modal              = $(options.template);
+        this.image               = $(element).attr('href')
+        this.images              = []
+        this.frames              = []
+        this.loaded              = 0
+        this.rotation            = 0
+        this.startPosition       = 0
+        this.startRotation       = 0
 
-    // The actual plugin constructor
-    function Plugin ( element, options ) {
-        this.element = element;
+        this.preload();
 
-        // jQuery has an extend method which merges the contents of two or
-        // more objects, storing the result in the first object. The first object
-        // is generally empty as we don't want to alter the default options for
-        // future instances of the plugin
-        this.settings = $.extend( {}, defaults, options );
-        this._defaults = defaults;
-        this._name = pluginName;
-        this.init();
+        if( $('#revolve-modal').length == 0 ) $('body').append( this.$modal );
+
+        this.$modal
+            .find('.modal-body')
+            .bind('mousedown touchstart', $.proxy(this.mouseDownHandler, this) );
+
+        $(document).bind('mouseup touchend', $.proxy(this.mouseUpHandler, this) );
     }
 
-    // Avoid Plugin.prototype conflicts
-    $.extend( Plugin.prototype, {
-        init: function() {
+    Revolve.VERSION  = '0.0.1';
 
-            // Place initialization logic here
-            // You already have access to the DOM element and
-            // the options via the instance, e.g. this.element
-            // and this.settings
-            // you can add more functions like the one below and
-            // call them like the example below
-            this.yourOtherFunction( "jQuery Boilerplate" );
-        },
-        yourOtherFunction: function( text ) {
+    Revolve.DEFAULTS = {
+        frames: 24,
+        template: [
+            '<div id="revolve-modal" class="modal fade" tabindex="-1" role="dialog">',
+              '<div class="modal-dialog" role="document">',
+                '<div class="modal-content">',
+                  '<div class="modal-body text-center">',
+                  '</div>',
+                '</div>',
+              '</div>',
+            '</div>'
+        ].join('')
+    }
 
-            // some logic
-            $( this.element ).text( text );
+    Revolve.prototype.show = function (_relatedTarget) {
+        $(this.$modal)
+            .find('.modal-body')
+            .html( $(this.images).first() );
+
+        $(this.$modal)
+            .modal('show');
+    }
+
+    Revolve.prototype.preload = function (_relatedTarget) {
+        var file = this.image.split('.'),
+            filename = file.shift().split('-').shift(),
+            filetype = file.pop(),
+            i = 1;
+
+        while (i <= this.options.frames) {
+            this.frames.push(filename + '-' + i + '.' + filetype);
+            i++;
         }
-    } );
 
-    // A really lightweight plugin wrapper around the constructor,
-    // preventing against multiple instantiations
-    $.fn[ pluginName ] = function( options ) {
-        return this.each( function() {
-            if ( !$.data( this, "plugin_" + pluginName ) ) {
-                $.data( this, "plugin_" +
-                    pluginName, new Plugin( this, options ) );
-            }
-        } );
-    };
+        for (var key in this.frames) {
+            var image = document.createElement('img');
+
+            $(image).one('load', $.proxy(this.loadHanlder, this));
+            image.ondragstart = function() { return false; }
+            image.src = this.frames[key];
+            image.style.width = '100%';
+
+            this.images.push(image);
+        };
+    }
+
+    Revolve.prototype.loadHanlder = function ( e ) {
+        this.loaded++;
+        if (this.loaded == this.images.length) {
+            this.$element.trigger('loaded.bs.revolve');
+        }
+    }
+
+    Revolve.prototype.mouseUpHandler = function ( e ) {
+        this.$modal.find('.modal-body').off( 'mousemove touchmove' );
+    }
+
+    Revolve.prototype.mouseDownHandler = function ( e ) {
+        this.startRotation = this.rotation;
+        this.startPosition = (e.type.toLowerCase() === 'mousedown')
+            ? e.pageX
+            : e.originalEvent.touches[0].pageX;
+
+        this.$modal.find('.modal-body').bind('mousemove touchmove', $.proxy(this.mouseMoveHandler, this) );
+    }
+
+    Revolve.prototype.mouseMoveHandler = function ( e ) {
+        var pageX = (e.type.toLowerCase() === 'mousemove')
+            ? e.pageX
+            : e.originalEvent.touches[0].pageX;
+
+        var delta = this.startPosition - pageX;
+        var newRotation = this.startRotation + delta / 2.5;
+
+        this.rotation = ((newRotation % 360) + 360) % 360;
+
+        var frameNo = 1 + Math.round (this.rotation / 360 * (this.frames.length - 1));
+            frameNo = (frameNo != (this.frames.length)) ? frameNo : 0;
+
+        this.$modal.find('img').attr('src', this.frames[frameNo]);
+    }
+
+    // The actual plugin constructor
+    function Plugin(option, _relatedTarget) {
+        return this.each(function () {
+            var $this   = $(this);
+            var data    = $this.data('bs.revolve');
+            var options = $.extend({}, Revolve.DEFAULTS, $this.data(), typeof option == 'object' && option);
+
+            if (!data) $this.data('bs.revolve', (data = new Revolve(this, options)));
+
+            // Call the plugin method or default to show
+            (typeof option == 'string') ?
+                data[ option ](_relatedTarget):
+                data.show(_relatedTarget)
+        })
+    }
+
+    var old = $.fn.revolve
+
+    $.fn.revolve             = Plugin
+    $.fn.revolve.Constructor = Revolve
+
+    //- No Conflict
+    $.fn.revolve.noConflict = function () {
+        $.fn.revolve = old
+        return this
+    }
+
+    //- Data API
+    $(document).on('click.bs.revolve.data-api', '[data-toggle="revolve"]', function (e) {
+        var $this   = $(this);
+        var option  = $this.data('bs.revolve') ? 'show' : $this.data();
+
+        if ($this.is('a')) e.preventDefault();
+
+        Plugin.call($this, option, this);
+    })
+
 
 } )( jQuery, window, document );
