@@ -36,12 +36,12 @@
         this.startPosition       = 0
         this.startRotation       = 0
 
-        this.preload();
-
         if( $('#revolve-modal').length == 0 ) $('body').append( this.$modal );
 
         this.$modal
             .find('.modal-body')
+            .css('cursor', 'ew-resize')
+            .css('position', 'relative')
             .bind('mousedown touchstart', $.proxy(this.mouseDownHandler, this) );
 
         $(document).bind('mouseup touchend', $.proxy(this.mouseUpHandler, this) );
@@ -51,6 +51,8 @@
 
     Revolve.DEFAULTS = {
         frames: 24,
+        addicon: true,
+        icon: '<div><small>360° <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></small></div>',
         template: [
             '<div id="revolve-modal" class="modal fade" tabindex="-1" role="dialog">',
               '<div class="modal-dialog" role="document">',
@@ -63,16 +65,8 @@
         ].join('')
     }
 
-    Revolve.prototype.show = function (_relatedTarget) {
-        $(this.$modal)
-            .find('.modal-body')
-            .html( $(this.images).first() );
-
-        $(this.$modal)
-            .modal('show');
-    }
-
-    Revolve.prototype.preload = function (_relatedTarget) {
+    Revolve.prototype.init = function (_relatedTarget) {
+        //- Prepare files
         var file = this.image.split('.'),
             filename = file.shift().split('-').shift(),
             filetype = file.pop(),
@@ -83,6 +77,36 @@
             i++;
         }
 
+        //- Add icon to thumb.
+        this.addicon();
+    }
+
+    Revolve.prototype.show = function (_relatedTarget) {
+        if(this.images.length == 0) {
+            this.preload();
+        }
+
+        var icon = $(this.options.icon)
+            .css('position', 'absolute')
+            .css('color', '#000')
+            .css('bottom', '16px')
+            .css('right', '20px');
+
+        $(this.$modal)
+            .find('.modal-body')
+            .html( $(this.images).first() )
+
+        if(this.options.addicon) {
+            $(this.$modal)
+                .find('.modal-body')
+                .append(icon);
+        }
+
+        $(this.$modal)
+            .modal('show');
+    }
+
+    Revolve.prototype.preload = function (_relatedTarget) {
         for (var key in this.frames) {
             var image = document.createElement('img');
 
@@ -97,8 +121,24 @@
 
     Revolve.prototype.loadHanlder = function ( e ) {
         this.loaded++;
-        if (this.loaded == this.images.length) {
+        if (this.loaded == this.frames.length) {
             this.$element.trigger('loaded.bs.revolve');
+        }
+    }
+
+    Revolve.prototype.addicon = function (_relatedTarget) {
+        if(this.options.addicon) {
+            this.$element
+                .css('position', 'relative')
+                .css('display', 'block');
+
+            var icon = $(this.options.icon)
+                .css('position', 'absolute')
+                .css('color', '#000')
+                .css('bottom', '4px')
+                .css('right', '8px');
+
+            this.$element.append(icon);
         }
     }
 
@@ -167,6 +207,14 @@
 
         Plugin.call($this, option, this);
     })
+
+    //- Init
+    $(function(){
+        $('[data-toggle="revolve"]').each(function(){
+            var $this   = $(this);
+            Plugin.call($this, 'init', this);
+        });
+    });
 
 
 } )( jQuery, window, document );
