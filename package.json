@@ -65,7 +65,7 @@
     "qunitjs": "^1.19.0"
   },
   "gitHead": "a270f97ba531ecf52de280bdb3ea56d3c8c0122b",
-  "homepage": "http://matejsvajger.com/bootstrap-revolve",
+  "homepage": "https://www.github.com/matejsvajger/bootstrap-revolve",
   "installable": true,
   "keywords": [
     "bootstrap",
@@ -74,7 +74,8 @@
     "rotate"
   ],
   "license": "MIT",
-  "name": "bootstrap-revolve",
+  "licenseUrl": "https://github.com/matejsvajger/bootstrap-revolve/blob/master/LICENSE",
+  "name": "bootstrap-revolve.js",
   "optionalDependencies": {},
   "readmeFilename": "README.md",
   "repository": {

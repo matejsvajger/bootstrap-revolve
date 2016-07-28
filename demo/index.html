@@ -13,7 +13,7 @@
 
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-		<script src="../dist/bootstrap.revolve.min.js"></script>
+		<script src="../dist/bootstrap.revolve.js"></script>
 	</head>
 	<body>
         <div class="container">
@@ -22,26 +22,82 @@
             </div>
             <div class="row">
                 <div class="col-xs-6 col-md-3">
-                    <a href="#" class="thumbnail">
-                      <img src="/demo/images/brille1a-1.jpg" alt="Glasses">
+                     <a href="images/glasses-1.jpg" data-toggle="revolve" data-frames="24" class="thumbnail">
+                        <img src="images/glasses-1.jpg" alt="Glasses">
                     </a>
                 </div>
             </div>
-            <h2>Usage:</h2>
-            <pre>
-    $( function() {
-        $( "#element" ).revolve( {
-            propertyName: "a custom value"
-        } );
-    } );</pre>
-            <div id="element"></div>
+            <h2>Usage</h2>
+            <p>Include <b>bootstrap.revolve.min.js</b> in your document after bootstrap.</p>
+            <ul>
+                <li>Anchor must point to an image <em>in the sequence</em>,</li>
+                <li>filenames must be <em>suffixed with -numbers without leading zeros</em> at the end i.e.: <code>image-#.jpg</code>,</li>
+                <li><code>frames</code> option is <b>required</b>.</li>
+            </ul>
+            <h3>Via data attributes</h3>
+            <p>Activate Revolve without writing JavaScript. Set <code>data-toggle="revolve"</code> on a controller element, like an anchor, along with a <code>data-frames="#"</code> and <code>href="[image-sequence-path]"</code> to open a specific revolve sequence in modal.</p>
+            <code>&lt;a href="[image-sequence-path]" data-toggle="revolve" data-frames="24"&gt;...&lt;/a&gt;</code>
+            <h3>Via JavaScript</h3>
+            <p>Attach bootstrap revolve to an elements with class .product with a single line of JavaScript: </p>
+            <pre>$('.product').revolve(options);</pre>
+            <h3>Options</h3>
+            <p>Options can be passed via data attributes or JavaScript. For data attributes, append the option name to <code>data-</code>, as in <code>data-frame=""</code>.</p>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>type</th>
+                            <th>default</th>
+                            <th>description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>frames</td>
+                            <td>int</td>
+                            <td>24</td>
+                            <td>Defines number of images in sequence.</td>
+                        </tr>
+                        <tr>
+                            <td>template</td>
+                            <td>string</td>
+                            <td>-</td>
+                            <td>Contains default bootstrap modal markup without <code>modal-header</code> and <code>modal-footer</code>.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3>Methods</h3>
+            <h4><code>.revolve(options)</code></h4>
+            <p>Activates your content with bootstrap revolve actions. Accepts an optional options object.</p>
+            <pre>$('.product').revolve({
+  frames: 30
+});</pre>
+            <h4><code>.revolve('show')</code></h4>
+            <p>Manually opens a revolve modal.</p>
+            <pre>$('.product').revolve('show');</pre>
+            <h3>Events</h3>
+            <p>All revolve events are fired at the anchor with bootstrap revolve attached (i.e. at the <code>&lt;a data-toggle="revolve"&gt;</code>).</p>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Event Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>loaded.bs.revolve</td>
+                            <td>This event is fired when revolve has pre-loaded all the images in sequence.</td>
+                            <pre>$('[data-toggle="revolve"]').on('loaded.bs.revolve', function (e) {
+  // do something...
+})</pre>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-		<script>
-			$( function() {
-				$( "#element" ).revolve( {
-					propertyName: "a custom value"
-				} );
-			} );
-		</script>
 	</body>
 </html>
